@@ -82,7 +82,7 @@ struct s_neuronal_netowrk
     {
         FILE* file;
 
-        fopen_s(&file, file_name, "w");
+        file=fopen(file_name, "w");
 
         for (int i = 0; i < this->out_data.size(); i++)
         {
