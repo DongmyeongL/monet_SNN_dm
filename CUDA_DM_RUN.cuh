@@ -77,12 +77,14 @@ void making_neuron_connection_list(std::vector<s_neuron_connection>& in_data, in
 
 struct s_neuronal_netowrk
 {
+    int* p_cuda_spike_check;
+    std::vector<int> vt_spike_check;
 
     void save_spike_data(char *file_name)
     {
         FILE* file;
 
-        file=fopen(file_name, "w");
+        fopen_s(&file, file_name, "w");
 
         for (int i = 0; i < this->out_data.size(); i++)
         {
@@ -178,6 +180,8 @@ struct s_neuronal_netowrk
 
         cudaFree(this->p_ca_data);
 
+        cudaFree(this->p_cuda_spike_check);
+
     }
 
 
@@ -190,25 +194,7 @@ struct s_neuronal_netowrk
 
 
     void set_neuron_number(int nn);
-    /*
-    {
-        this->all_clear();
-        this->nn_neuron_num = nn;
-        this->_neuron_data.resize(nn);
-        this->_connect_data.resize(nn);
-        this->_neuronal_xyz.resize(nn);
-        this->spike_color.resize(nn);
-
-
-        cudaMalloc((void**)&this->c_neuron, nn * sizeof(cuda_s_izkevich));
-        cudaMalloc((void**)&this->devStates, nn * sizeof(curandState));
-
-
-        int n_block = (int)(nn / 1024) + 1;
-      //  setup_rand << <n_block, 1024 >> > (this->devStates, (int)time(NULL), nn);
-
-    }
-    */
+  
 
     int get_neuron_number()
     {

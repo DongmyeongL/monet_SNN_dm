@@ -12,6 +12,8 @@
 
 int main()
 {
+
+	std::cout << sizeof(bool) << std::endl;
 	s_neuronal_netowrk _neuronal_network;
 
 	int nn = 1000;
@@ -27,7 +29,7 @@ int main()
 
 	std::mt19937 gen(time(NULL));
 	std::uniform_real_distribution<> uni_dist(0.0, 1.0);
-
+	std::cout << "Connection setting....." << std::endl;
 	for (int i = 0; i < nn; i++)
 	{
 		for (int j = i + 1; j < nn; j++)
@@ -50,12 +52,35 @@ int main()
 	double _time = 20 * 1000 * s_time;
 	double noise_intensity = 11.5;
 
-	_neuronal_network.set_run_param(0.05, 0, _time, noise_intensity, true, true, false);
+	_neuronal_network.set_run_param(0.05, 0, _time, noise_intensity, true, false, false);
+	std::cout << "CUDA memory setting...." << std::endl;
+	
 	_neuronal_network.create_cuda_memory();
+
+	std::cout << "run...." << std::endl;
+
+
+	cudaEvent_t cstart, cstop;
+
+	cudaEventCreate(&cstart);
+	cudaEventCreate(&cstop);
+	cudaEventRecord(cstart);
+
+	//main function 
 	_neuronal_network.cuda_run_stdp();
 
-	_neuronal_network.save_spike_data("test.txt");
+	cudaEventRecord(cstop);
+	cudaEventSynchronize(cstop);
+	float milliseconds = 0;
+	cudaEventElapsedTime(&milliseconds, cstart, cstop);
+	std::cout << "Kernel execution time: " << milliseconds << " ms" << std::endl;
+	cudaEventDestroy(cstart);
+	cudaEventDestroy(cstop);
+
+
+	_neuronal_network.save_spike_data("ptest.txt");
 	
+
 
 	return 1;
 }
