@@ -52,7 +52,7 @@ int main()
 	double _time = 20 * 1000 * s_time;
 	double noise_intensity = 11.5;
 
-	_neuronal_network.set_run_param(0.05, 0, _time, noise_intensity, true, false, false);
+	_neuronal_network.set_run_param(0.05, 0, _time, noise_intensity, true, true, false);
 	std::cout << "CUDA memory setting...." << std::endl;
 	
 	_neuronal_network.create_cuda_memory();
