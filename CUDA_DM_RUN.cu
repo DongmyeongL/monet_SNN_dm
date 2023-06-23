@@ -65,7 +65,7 @@ void s_neuronal_netowrk::create_cuda_memory()
     cudaMemcpy(p_weight, (void*)&v_weight[0], v_weight.size() * sizeof(double), cudaMemcpyHostToDevice);
 
 
-    cudaMemcpy(this->p_cuda_spike_check, (void*)&this->vt_spike_check[0], this->nn_neuron_num * sizeof(bool), cudaMemcpyHostToDevice);
+    cudaMemcpy(this->p_cuda_spike_check, (void*)&this->vt_spike_check[0], this->nn_neuron_num * sizeof(int), cudaMemcpyHostToDevice);
 }
 
 
