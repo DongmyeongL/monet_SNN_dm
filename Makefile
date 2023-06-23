@@ -2,7 +2,7 @@
 CC = nvcc
 
 # Define compiler flags
-CFLAGS = -O3 -arch=sm_70
+CFLAGS = -O3 -arch=sm_61
 
 # Define the target executable
 TARGET = test
